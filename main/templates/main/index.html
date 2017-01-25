@@ -1,40 +1,58 @@
+{% extends "main/base.html" %}
+
 {% load staticfiles %}
 
-<html>
-     <head type="text/css">
-        <meta charset= "utf-8">
-        <title>Онлайн портфолио школы</title>
-
-        <link rel="stylesheet" href="{% static 'help/css/bootstrap.min.css' %}">
-        <link href="{% static 'help/css/sticky-footer.css' %}" rel="stylesheet">
-        
-        <script src="{% static 'help/js/modal.js' %}"></script>
-        <script src="{% static 'help/js/jquery-3.1.1.min.js' %}"></script>
-        <script src="{% static 'help/js/bootstrap.min.js' %}"></script>
-
-    </head>
-    <body>
-        <div class = "page-header">
-            <h1><a href=".">NTLSPACE</a></h1>
-            {% if is_auth %}
-                    <div class="form-row">
-                        <row><a href= "/editprofile/{{user.profile.id}}">Редактировать профиль</a>
-                        |
-                        <a href= "/logout/">Выйти</a></row>
-                        
-                        
-                        
-                        <div class = "col-lg-9">
-                        </div>
-
-                    </div>
-
-            {% else %}  
-                 <div class = "col-md-offset-9">
-                    <row><a href="/login/">Войти</a></row>
-                    <row>|</row>
-                    <row><a href="/registrations/">Зарегистрироватся</a></row>
-                </div>
-            {% endif %}      
+{% block content %}
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">NTL Space</a>
         </div>
-   
+        <div id="navbar" class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="form" action="." method="post">
+            {% csrf_token %}
+            {% if has_error %}
+              <div class="form-group alert alert-danger alert-dismissible" role="alert" style="padding-top: 6px; padding-bottom: 6px">
+                <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <p class="non-field-error">{{ error_message }}</p>
+              </div>
+            {% endif %}
+            <div class="form-group">
+              <input name="login" type="text" placeholder="Login" class="form-control">
+            </div>
+            <div class="form-group">
+              <input name="password" type="password" placeholder="Пароль" class="form-control">
+            </div>
+            <button name="sign_in" type="submit" class="btn btn-success">Войти</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="jumbotron" style="background-image: url(&quot;{% static 'main/img/school.png' %}&quot;)">
+      <div class="container">
+        <h2>Нюрбинский технический лицей им. А.Н. Чусовского</h2>
+        <p>Учитель в школе уже не работает, а уроки его продолжаются, они живут в чувствах, помыслах, 
+          делах его воспитанников. Настоящий учитель продолжает жить в своих учениках. Таким учителем, 
+          непререкаемым авторитетом для нашего поколения был Александр Николаевич Чусовской</p>
+        <p style="font-size: 18px"><i>Отличник народного просвещения, воспитанница Чусовского А.Н. — Очурова П.Ф.</i></p>
+        <p><a class="btn btn-primary btn-lg" href="/register/" role="button">Регистрация</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+
+      <hr style="border-color:black">
+
+      <footer>
+        <p>&copy; NTL Space 2017</p>
+      </footer>
+
+    </div>
+{% endblock %}
