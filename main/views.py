@@ -12,9 +12,12 @@ from student.models import *
 from teacher.models import *
 
 
+TEACHER_PROFILE = 1
+STUDENT_PROFILE = 2
+
 ### helpers
 
-def login(request, login, password):
+def sign_in(request, login, password):
     user = auth.authenticate(username = login, password = password)
     if user != None and user.is_active:
         auth.login(request, user)
@@ -22,6 +25,20 @@ def login(request, login, password):
         return user
 
     return None
+
+def get_profile_type(user):
+    if hasattr(user, "teacher_profile"):
+        return TEACHER_PROFILE
+    elif hasattr(user, "student_profile"):
+        return STUDENT_PROFILE
+    else:
+        return None
+
+def redirect_to_profile(user):
+    if get_profile_type(user) == TEACHER_PROFILE:
+        return HttpResponseRedirect("/teacher/" + user.username + "/")
+    elif get_profile_type(user) == STUDENT_PROFILE:
+        return HttpResponseRedirect("/student/" + user.username + "/")
 
 ### request handlers
 
@@ -32,15 +49,15 @@ def index(request):
     authorized = request.user.is_authenticated()
 
     if authorized:
-        return HttpResponseRedirect("/" + request.user.profile.username + "/")
+        return redirect_to_profile(request.user)
 
     if request.method == "POST" and "sign_in" in request.POST:
         login    = request.POST['login']
         password = request.POST['password']
 
-        user = login(request, login, password)
+        user = sign_in(request, login, password)
         if user:
-            return HttpResponseRedirect("/" + request.user.profile.username + "/")
+            return redirect_to_profile(request.user)
         else:
             has_error     = True
             error_message = "Не удалось войти в систему"
