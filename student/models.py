@@ -169,7 +169,7 @@ class SportCompetitionResult(models.Model):
 		return 'SportCompetitionResult'
 
 class StudentProfile(models.Model):
-    user                      = models.OneToOneField(User)
+    user                      = models.OneToOneField(User, related_name = "student_profile")
     name                      = models.CharField(max_length = 100)
     grade                     = models.CharField(max_length = 2, choices = GRADE)
     letter                    = models.CharField(max_length = 1, choices = LETTER)

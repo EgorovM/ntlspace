@@ -56,7 +56,7 @@ EDUCATION = (
 )
 
 class TeacherProfile(models.Model):
-    user                    = models.OneToOneField(User)
+    user                    = models.OneToOneField(User, related_name = "teacher_profile")
     verified                = models.BooleanField(default = False)
     name                    = models.CharField(max_length = 100)
     sex                     = models.CharField(max_length = 1, choices = SEX, blank = True)
