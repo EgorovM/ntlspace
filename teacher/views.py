@@ -8,9 +8,12 @@ from django.core.mail               import send_mass_mail
 from django.db                      import IntegrityError
 
 from teacher.models import *
+from teacher.forms  import *
 
 
 ### request handlers
 
 def register(request):
+    profile_form = TeacherProfileForm()
+
     return render(request, 'teacher/register.html', locals())
