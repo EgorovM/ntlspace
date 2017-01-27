@@ -12,6 +12,20 @@
         <script src="{% static 'main/js/bootstrap.min.js' %}"></script>
     </head>
     <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="/">NTL Space</a>
+                </div>
+            </div>
+        </div>
+        
         <div class = "row" style="margin-top: 80;">
             <div class = "col-md-offset-3 col-md-6 well">
                 <form class="form-horizontal" action = "." method = "post">
@@ -82,7 +96,9 @@
                         </div>
                     </div>
                     
-                    <div style="text-align: right;"><input class="btn btn-success" type = "submit" name = "register_button" value = "Зарегистрироватся"></div>
+                    <div style="text-align: right;"><input class="btn btn-success" type = "submit" name = "register_button" value = "Зарегистрироваться"></div>
                 </form>
             </div>
         </div>
+    </body>
+</html>

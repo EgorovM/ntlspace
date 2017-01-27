@@ -63,3 +63,8 @@ def index(request):
             error_message = "Не удалось войти в систему"
 
     return render(request, 'main/index.html', locals())
+    
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect("/")
+    

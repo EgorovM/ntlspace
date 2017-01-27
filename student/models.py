@@ -3,6 +3,7 @@
 from django.db                  import models
 from django.contrib.auth.models import User
 
+
 GRADE = (
     ("5",  "5 класс"),
     ("6",  "6 класс"),
@@ -17,7 +18,6 @@ LETTER = (
     ("A",  "а"),
     ("B",  "б"),
 )
-
 
 SEX = (
 		("M", "мужской"),
@@ -113,8 +113,10 @@ class ActivityOptions(models.Model):
     ndshi   = models.BooleanField(default = False)
     kytalyk = models.BooleanField(default = False)
     custom  = models.CharField(max_length = 100)
+    
     def __unicode__(self):
 		return 'ActivityOptions'
+		
 class HobbyOptions(models.Model):
     reading   = models.BooleanField(default = False)
     science   = models.BooleanField(default = False)
@@ -126,6 +128,7 @@ class HobbyOptions(models.Model):
     art       = models.BooleanField(default = False)
     photo     = models.BooleanField(default = False)
     custom    = models.CharField(max_length = 100)
+    
     def __unicode__(self):
 		return 'HobbyOptions'
 
@@ -133,6 +136,7 @@ class OlympResult(models.Model):
     subject = models.CharField(max_length = 2, choices = SUBJECT)
     level   = models.CharField(max_length = 1, choices = LEVEL)
     result  = models.CharField(max_length = 1, choices = OLYMP_RESULT)
+    
     def __unicode__(self):
 		return 'OlympResult'
 
@@ -142,6 +146,7 @@ class ConferenceResult(models.Model):
     name    = models.CharField(max_length = 50)
     adviser = models.CharField(max_length = 50)
     result  = models.CharField(max_length = 1, choices = CONF_RESULT)
+    
     def __unicode__(self):
 		return 'ConferenceResult'
 
@@ -157,6 +162,7 @@ class SportSectionOptions(models.Model):
     judo          = models.BooleanField(default = False)
     box           = models.BooleanField(default = False)
     custom        = models.CharField(max_length = 100)
+    
     def __unicode__(self):
 		return 'SportSectionOptions'
 
@@ -165,6 +171,7 @@ class SportCompetitionResult(models.Model):
     section = models.CharField(max_length = 3, choices = SPORT_SECTIONS)
     trainer = models.CharField(max_length = 20)
     result  = models.CharField(max_length = 1, choices = SPORT_RESULT)
+    
     def __unicode__(self):
 		return 'SportCompetitionResult'
 
@@ -173,20 +180,21 @@ class StudentProfile(models.Model):
     name                      = models.CharField(max_length = 100)
     grade                     = models.CharField(max_length = 2, choices = GRADE)
     letter                    = models.CharField(max_length = 1, choices = LETTER)
-    avatar                    = models.ImageField(upload_to = "images", blank = True)
+    avatar                    = models.ImageField(upload_to = "images", blank = True, null = True)
     birthdate                 = models.DateField(null = True, blank = True)
     address                   = models.CharField(max_length = 100)
     sex                       = models.CharField(max_length = 1, choices = SEX)
-    activity_options          = models.OneToOneField(ActivityOptions)
-    family                    = models.OneToOneField(Family)
-    hobby_options             = models.OneToOneField(HobbyOptions)
-    olymp_results             = models.ForeignKey(OlympResult)
-    conference_results        = models.ForeignKey(ConferenceResult)
-    sport_section_options     = models.ForeignKey(SportSectionOptions)
-    sport_competition_results = models.ForeignKey(SportCompetitionResult)
+    activity_options          = models.OneToOneField(ActivityOptions, blank = True, null = True)
+    family                    = models.OneToOneField(Family, blank = True, null = True)
+    hobby_options             = models.OneToOneField(HobbyOptions, blank = True, null = True)
+    olymp_results             = models.ForeignKey(OlympResult, blank = True, null = True)
+    conference_results        = models.ForeignKey(ConferenceResult, blank = True, null = True)
+    sport_section_options     = models.ForeignKey(SportSectionOptions, blank = True, null = True)
+    sport_competition_results = models.ForeignKey(SportCompetitionResult, blank = True, null = True)
     my_success                = models.CharField(max_length = 500)
     gto                       = models.CharField(max_length = 1, choices = GTO)
     sections                  = models.CharField(max_length = 50)
     verified                  = models.BooleanField(default = False)
+    
     def __unicode__(self):
-		return ' StudentProfile'
+        return str(self.user)

@@ -1,16 +1,13 @@
 #coding=utf-8
-from .models import *
-from django.shortcuts import render, HttpResponseRedirect, redirect
-from django.utils import timezone
-from django.db import IntegrityError
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from .models                    import *
+from django.shortcuts           import render, HttpResponseRedirect, redirect
+from django.utils               import timezone
+from django.db                  import IntegrityError
+from django.core.paginator      import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate
-from django.contrib import auth
-from PIL      import Image
-import datetime
-import json
-import StringIO
+from django.contrib.auth        import authenticate
+from django.contrib             import auth
+from PIL                        import Image
 
 def register(request):
     false_message = ""
@@ -20,12 +17,12 @@ def register(request):
             password = request.POST["password"]
             full_name = request.POST["full_name"]
             sex       = request.POST["sex"]
-            birthday  = request.POST["birthdate"]
+            birthdate  = request.POST["birthdate"]
             grade     = request.POST["grade"]
             letter    = request.POST["letter"]
             address   = request.POST["address"]
 
-            if username !='' and password !='' and full_name != '' and sex != '' and birthday != '' and grade != '' and letter != '' and address != '':
+            if username !='' and password !='' and full_name != '' and sex != '' and birthdate != '' and grade != '' and letter != '' and address != '':
                 try:
                     user = User.objects.create_user(username = username, password = password)
                     user.save()
@@ -40,17 +37,33 @@ def register(request):
                 profile.letter    = letter
                 profile.address   = address
                 profile.sex       = sex
-                profile.birthdate = birthdate
+                
                 profile.save()
                 
                 user = authenticate(username = username, password = password)
 
                 if user is not None and user.is_active:
                     auth.login(request, user)
-                    return HttpResponseRedirect("/profile")
+                    return HttpResponseRedirect("/student/"+profile.user.username)
             else:
                 false_message = "Заполните все поля."
 
     context = {"SEX":SEX,"GRADE":GRADE,"LETTER":LETTER,"false_message":false_message}
 
     return render(request,'student/register.html',context)
+    
+def profile(request, nick):
+    context = []
+    
+    if request.method == "POST":
+        pass
+        
+    user       = request.user
+    authorized = request.user.is_authenticated()
+    
+    if authorized:
+        profile = StudentProfile.objects.get(user=user)      
+        context = {"profile":profile,}
+    
+    return render(request,'student/profile.html',context)
+    
