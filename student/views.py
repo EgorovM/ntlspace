@@ -1,5 +1,4 @@
 #coding=utf-8
-from .models                    import *
 from django.shortcuts           import render, HttpResponseRedirect, redirect
 from django.utils               import timezone
 from django.db                  import IntegrityError
@@ -9,48 +8,27 @@ from django.contrib.auth        import authenticate
 from django.contrib             import auth
 from PIL                        import Image
 
+from .models import *
+from .forms  import *
+
+ 
 def register(request):
     false_message = ""
+    user_form    = UserForm()
+    profile_form = StudentProfileForm()
+    
     if request.method == "POST":
-        if "register_button" in request.POST:
-            username = request.POST["login"]
-            password = request.POST["password"]
-            full_name = request.POST["full_name"]
-            sex       = request.POST["sex"]
-            birthdate  = request.POST["birthdate"]
-            grade     = request.POST["grade"]
-            letter    = request.POST["letter"]
-            address   = request.POST["address"]
+		user_form    = UserForm(request.POST)
+		profile_form = StudentProfileForm(request.POST)
 
-            if username !='' and password !='' and full_name != '' and sex != '' and birthdate != '' and grade != '' and letter != '' and address != '':
-                try:
-                    user = User.objects.create_user(username = username, password = password)
-                    user.save()
-                except IntegrityError:
-                    false_message = "Такой логин уже существует."
-                    response = render(request, 'student/register.html',{"false_message":false_message})
-                    return response
+		if user_form.is_valid() and profile_form.is_valid():
+			user    = user_form.save()
+			profile = profile_form.save(commit = False)
 
-                profile           = StudentProfile(user = user)
-                profile.name      = full_name
-                profile.grade     = grade
-                profile.letter    = letter
-                profile.address   = address
-                profile.sex       = sex
-                
-                profile.save()
-                
-                user = authenticate(username = username, password = password)
+			profile.user = user
+			profile.save()
 
-                if user is not None and user.is_active:
-                    auth.login(request, user)
-                    return HttpResponseRedirect("/student/"+profile.user.username)
-            else:
-                false_message = "Заполните все поля."
-
-    context = {"SEX":SEX,"GRADE":GRADE,"LETTER":LETTER,"false_message":false_message}
-
-    return render(request,'student/register.html',context)
+    return render(request,'student/register.html',locals())
     
 def profile(request, nick):
     context = []

@@ -27,74 +27,11 @@
         </div>
         
         <div class = "row" style="margin-top: 80;">
-            <div class = "col-md-offset-3 col-md-6 well">
+            <div class = "col-md-offset-2 col-md-8 well">
                 <form class="form-horizontal" action = "." method = "post">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="login" class="col-sm-2 control-label">Логин</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="login" placeholder="Логин" name = "login">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password" class="col-sm-2 control-label">Пароль</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="password" placeholder="Пароль" name = "password">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="full_name" class="col-sm-2 control-label">Ф.И.О.</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="full_name" placeholder="Ф.И.О." name = "full_name">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="sex" class="col-sm-2 control-label">Пол</label>
-                        <div class="col-sm-10">
-                            <select name = "sex" class="form-control">
-                                 {% for sx in SEX %}
-                                    <option value="{{ sx.0 }}" > {{ sx.1 }} </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="birthdate" class="col-sm-2 control-label">День рождения</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="birthdate" placeholder="День рождения" name = "birthdate">
-                            <span id="helpBlock" class="help-block">Например: 04.04.2001</span>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="grade" class="col-sm-2 control-label">Класс</label>
-                        <div class="col-sm-4">
-                            <select name = "grade" class="form-control">
-                                {% for gr in GRADE %}
-                                    <option value="{{ gr.0 }}"> {{ gr.1 }} </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <label for="letter" class="col-sm-2 control-label">Буква</label>
-                        <div class="col-sm-4">
-                            <select name = "letter" class="form-control">
-                                 {% for lt in LETTER %}
-                                    <option value="{{ lt.0 }}"> {{ lt.1 }} </option>
-                                {% endfor %} 
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="address" class="col-sm-2 control-label">Адрес проживания</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address" placeholder="Адрес проживания" name = "address">
-                        </div>
-                    </div>
+                    {{ user_form.as_p }} 
+                    {{ profile_form.as_p }}             
                     
                     <div style="text-align: right;"><input class="btn btn-success" type = "submit" name = "register_button" value = "Зарегистрироваться"></div>
                 </form>
