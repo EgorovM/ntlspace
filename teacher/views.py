@@ -15,5 +15,6 @@ from teacher.forms  import *
 
 def register(request):
     profile_form = TeacherProfileForm()
+    user_form = UserForm()
 
     return render(request, 'teacher/register.html', locals())
