@@ -10,6 +10,8 @@ from django.db                      import IntegrityError
 from teacher.models import *
 from teacher.forms  import *
 
+from main.views import sign_in, redirect_to_profile
+
 
 ### request handlers
 
@@ -27,5 +29,12 @@ def register(request):
 
 			profile.user = user
 			profile.save()
+
+			username = user_form['username'].value()
+			password = user_form['password'].value()
+
+			user = sign_in(request, username, password)
+			if user:
+				return redirect_to_profile(user)
 
     return render(request, 'teacher/register.html', locals())

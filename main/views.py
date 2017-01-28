@@ -57,7 +57,7 @@ def index(request):
 
         user = sign_in(request, login, password)
         if user:
-            return redirect_to_profile(request.user)
+            return redirect_to_profile(user)
         else:
             has_error     = True
             error_message = "Не удалось войти в систему"
