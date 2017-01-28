@@ -20,7 +20,7 @@
     <div class="container" style="margin-top: 30px">
       <div class="row">
         <div class="well col-md-8 col-md-offset-2">
-          <form class="form-horizontal" role="form" action="." method="post">
+          <form class="form-horizontal" role="form" action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ user_form.as_p }}
             {{ profile_form.as_p }}
