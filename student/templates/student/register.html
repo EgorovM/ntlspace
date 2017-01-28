@@ -28,7 +28,7 @@
         
         <div class = "row" style="margin-top: 80;">
             <div class = "col-md-offset-2 col-md-8 well">
-                <form class="form-horizontal" action = "." method = "post">
+                <form class="form-horizontal" enctype="multipart/form-data" role="form" action="." method="post">
                     {% csrf_token %}
                     {{ user_form.as_p }} 
                     {{ profile_form.as_p }}             
