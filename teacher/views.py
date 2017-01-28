@@ -14,7 +14,18 @@ from teacher.forms  import *
 ### request handlers
 
 def register(request):
+    user_form    = UserForm()
     profile_form = TeacherProfileForm()
-    user_form = UserForm()
+
+    if request.method == "POST":
+		user_form    = UserForm(request.POST)
+		profile_form = TeacherProfileForm(request.POST)
+
+		if user_form.is_valid() and profile_form.is_valid():
+			user    = user_form.save()
+			profile = profile_form.save(commit = False)
+
+			profile.user = user
+			profile.save()
 
     return render(request, 'teacher/register.html', locals())
